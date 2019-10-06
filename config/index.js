@@ -69,14 +69,14 @@ module.exports = {
       },
       upgrade: {
         outputFile: resolve('./releases/upgrade.json'),
-        publicPath: 'http://localhost:8080/releases/',
+        publicPath: 'http://localhost:8086/releases/',
         files: [curReleasesPath]
       }
     }
   },
   dev: {
     env: require('./dev.env'),
-    port: 8080,
+    port: 8086,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',

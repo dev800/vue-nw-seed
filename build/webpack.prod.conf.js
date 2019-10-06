@@ -8,15 +8,32 @@ var CopyWebpackPlugin = require('copy-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+var {
+  VueLoaderPlugin
+} = require('vue-loader')
 
 var env = config.build.env
 
 var webpackConfig = merge(baseWebpackConfig, {
+  mode: 'production',
   module: {
-    rules: utils.styleLoaders({
-      sourceMap: config.build.productionSourceMap,
-      extract: true
-    })
+    rules: [
+      {
+        test: /\.(c|sc|sa)ss$/,
+        use: [
+          'css-loader?sourceMap',
+          'postcss-loader?sourceMap',
+          'sass-loader?sourceMap'
+        ]
+      },
+      {
+        test: /\.(le)ss$/,
+        use: [
+          'css-loader?sourceMap',
+          'less-loader?sourceMap&javascriptEnabled=true'
+        ]
+      }
+    ]
   },
   devtool: config.build.productionSourceMap ? '#source-map' : false,
   output: {
@@ -25,6 +42,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
   plugins: [
+    new VueLoaderPlugin(),
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
       'process.env': env
